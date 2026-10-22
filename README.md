@@ -19,16 +19,27 @@ can a photograph go when AI is used as a true digital development process?
 
 Many camera apps pursue an invisible result, a *no-filter* aesthetic and maximum naturalism.
 NXT-CAM deliberately explores the opposite direction: recognizable, cinematic and assertive
-development that gives the frame a strong identity without replacing its people, objects or
-meaning.
+development that aims to give the frame a strong identity while preserving its people, objects
+and meaning.
 
 Every API development has a cost. NXT-CAM treats that as more than a constraint: it gives value
 back to the individual frame, much like a limited roll of film made every shutter press matter.
 
 ## The vision
 
-- **AI as development, not generation.** The photograph begins with what was actually captured,
-  and processing must preserve identity, anatomy, geometry and detail.
+NXT-CAM is also a personal experiment in where smartphone photography might go next. Could
+better processing help a phone with a single camera, modest optics or a smaller sensor produce
+more compelling photographs? Could it make much stronger zoom useful while retaining good
+image quality? And where would recovered detail end and AI reconstruction begin?
+
+These are questions behind the project, not capabilities promised by the current app. NXT-CAM
+does not currently guarantee lossless extreme zoom, flagship-level results from any camera, or
+faithful recovery of details that were never captured. It is a way to explore that possible
+future through a working photographic experiment.
+
+- **Start with a photograph.** Development begins with a captured or imported image. The AI is
+  instructed to preserve identity, anatomy, geometry and scene detail; those are processing
+  goals, not a guarantee that a generative image model will never alter a detail.
 - **A bold result, never an arbitrary one.** Local contrast, color, atmosphere, grain, light,
   depth separation and bokeh are used decisively but adapted to the real subject.
 - **Every frame matters.** A monthly allowance and per-photo cost make photography less automatic
@@ -36,12 +47,27 @@ back to the individual frame, much like a limited roll of film made every shutte
 - **Experiment before shooting.** Existing gallery images can be developed while preserving the
   source and showing a before/after comparison.
 
+### Why deliberately strong processing?
+
+The processing is intentionally pushed a little further. Many camera apps pursue the most
+natural-looking shot or the *no-filter* aesthetic; NXT-CAM explores a visibly developed image
+with a distinct cinematic character.
+
+Each API development costs money. The aim is to make that intervention visibly and creatively
+worthwhile, so the money spent produces a meaningful visual change. More processing is
+not automatically better photography: this is a creative choice for the experiment, and the
+result will not suit every photograph or every taste.
+
+That cost also invites a slower approach: choose a frame, decide how to develop it, and give it
+attention, much as you would with a limited roll of film.
+
 ## Features
 
 ### Camera
 
 - front and rear cameras;
-- `0.6×`, `1×` and `2×` selection with main-sensor crop, plus pinch-to-zoom;
+- `1×`, with optional `0.6×` ultra-wide and `2×` main-sensor crop controls when exposed by the
+  device, plus pinch-to-zoom within its available range;
 - tap-to-focus, focus-point metering and vertical-swipe exposure compensation;
 - AF/AE lock with a long press;
 - `OFF`, `AUTO` and `ON` flash modes;
@@ -59,8 +85,8 @@ back to the individual frame, much like a limited roll of film made every shutte
 - pronounced bokeh for portraits and close subjects, conservative depth treatment for landscapes
   and architecture;
 - local contrast, depth, grain and cinematic color grading;
-- selective subject polish without plastic skin or changes to face, body, age, complexion, animal
-  breed, ingredients, text or geometry;
+- selective subject polish with instructions against plastic skin or changes to face, body,
+  age, complexion, animal breed, ingredients, text or geometry;
 - explicit constraints against inventing people, objects or scene elements;
 - a persistent WorkManager queue that continues in the background and can recover after network
   loss, process termination or device restart.
@@ -88,13 +114,36 @@ back to the individual frame, much like a limited roll of film made every shutte
 
 ## Requirements
 
-- a recent Android Studio installation with the Android SDK;
-- a CameraX-compatible Android device;
+- a CameraX-compatible Android device running **Android 10 (API 29) or newer**;
 - a personal OpenAI API key with access to a supported image model;
 - an Internet connection for photographic development.
 
-Hardware features vary by manufacturer. HDR, night mode, ultra-wide access and `2×` crop behavior
-depend on the capabilities exposed by each device through CameraX.
+Android Studio and the Android SDK are needed only to build the app from source, not to install
+the downloadable APK.
+
+### Device compatibility
+
+NXT-CAM is not restricted to Samsung or foldable phones, and multiple rear cameras are not a
+requirement. AI development runs through the OpenAI API, rather than an on-device AI model;
+there is no requirement for a flagship AI processor. The phone still handles capture, image
+preparation and display, so performance and memory use can vary.
+
+Development and testing have focused on a Samsung Fold and Android emulators. Broader
+compatibility across manufacturers, Android versions and lower-end phones is still being
+verified. **Android 10 or newer is a minimum requirement, not a guarantee that every device
+has been tested or that every camera feature will work.** There is no iOS version.
+
+HDR, night mode, ultra-wide access and the available zoom range depend on the capabilities the
+manufacturer exposes through CameraX. A phone may have extra lenses in its stock camera app
+that are unavailable to NXT-CAM. Unsupported lens controls are hidden; if an OEM extension
+fails to bind, the app attempts to use the standard camera pipeline.
+
+The `2×` control is a crop, not a promise of optical zoom or lossless magnification. Importing
+an existing photograph also lets you explore development using an image captured with another
+camera app.
+
+When reporting a compatibility issue, include the phone model, Android version, NXT-CAM
+version and steps to reproduce it. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Build and install
 
