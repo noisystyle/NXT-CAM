@@ -116,6 +116,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         const val MAX_PREVIEW_RECOVERY_ATTEMPTS = 2
         const val RESULT_PAN_MULTIPLIER = 1.7f
         const val CAMERA_PREFERENCES = "nxt_camera_preferences"
+        const val SUPPORT_URL = "https://buymeacoffee.com/marcoprattv"
         const val KEY_GRID_ENABLED = "grid_enabled"
         const val KEY_PHOTO_QUALITY = "photo_quality"
         const val KEY_PHOTO_LOOK = "photo_look"
@@ -740,6 +741,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 Intent(this, OnboardingActivity::class.java)
                     .putExtra(OnboardingActivity.EXTRA_REPLAY, true)
             )
+        }
+        binding.settingsSupportButton.setOnClickListener {
+            playHaptic(HapticCue.TAP)
+            runCatching {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SUPPORT_URL)))
+            }.onFailure {
+                playHaptic(HapticCue.REJECT)
+                Toast.makeText(this, "Unable to open the support page.", Toast.LENGTH_SHORT).show()
+            }
         }
         binding.monthlyBudgetBar.setOnClickListener {
             playHaptic(HapticCue.TAP)

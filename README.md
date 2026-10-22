@@ -6,6 +6,14 @@
 
 ![NXT-CAM onboarding](mockups/nxt-cam-onboarding-v1.png)
 
+## Download
+
+[**Download NXT-CAM 2.5.1 for Android**](https://github.com/noisystyle/NXT-CAM/releases/download/v2.5.1/NXT-CAM-debug.apk)
+
+The downloadable APK is an experimental debug build for sideloading and testing. Android may ask
+you to allow installation from the browser or file manager used to open it. NXT-CAM is BYOK: the
+APK contains no API key, so each tester must provide a personal OpenAI key in **Settings**.
+
 NXT-CAM starts with a simple question: if every smartphone already has a capable camera, how far
 can a photograph go when AI is used as a true digital development process?
 
@@ -141,7 +149,14 @@ NXT-CAM is an independent, evolving experiment and is not intended to replace th
 at this stage. It is not an official product and is not affiliated with, sponsored by or endorsed
 by OpenAI, Google, Samsung or any device manufacturer.
 
-The repository contains no API keys, personal photographs, cost logs or compiled APKs.
+The repository contains no API keys, personal photographs or cost logs. Compiled test APKs are
+distributed only through [GitHub Releases](https://github.com/noisystyle/NXT-CAM/releases).
+
+## Support the experiment
+
+If NXT-CAM is useful or inspiring, you can support its continued development:
+
+[**Buy me a coffee**](https://buymeacoffee.com/marcoprattv)
 
 ## Contributing
 

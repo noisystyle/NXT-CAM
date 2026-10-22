@@ -10,8 +10,8 @@ android {
         applicationId = "it.noxia.leicaai"
         minSdk = 29
         targetSdk = 37
-        versionCode = 47
-        versionName = "2.5.0"
+        versionCode = 48
+        versionName = "2.5.1"
     }
 
     buildFeatures {

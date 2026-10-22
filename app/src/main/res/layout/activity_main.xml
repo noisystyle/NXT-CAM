@@ -363,6 +363,46 @@
                     android:textColor="@color/white"
                     android:textSize="9sp"
                     android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="24dp"
+                    android:background="#38FFFFFF" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:letterSpacing="0.12"
+                    android:text="SUPPORT THE EXPERIMENT"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="If NXT-CAM is useful or inspiring, you can support its continued development."
+                    android:textColor="@color/muted_white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/settingsSupportButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/grid_cell"
+                    android:clickable="true"
+                    android:contentDescription="Open the NXT-CAM Buy Me a Coffee page"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:stateListAnimator="@animator/expressive_press"
+                    android:text="BUY ME A COFFEE  ↗"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </ScrollView>
     </FrameLayout>
