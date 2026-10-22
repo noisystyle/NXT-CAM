@@ -15,6 +15,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -138,6 +139,31 @@ class OnboardingActivity : AppCompatActivity() {
         window.navigationBarColor = Color.TRANSPARENT
         window.isStatusBarContrastEnforced = false
         window.isNavigationBarContrastEnforced = false
+        ViewCompat.setOnApplyWindowInsetsListener(binding.onboardingRoot) { view, insets ->
+            val navigationBottom = insets
+                .getInsets(WindowInsetsCompat.Type.navigationBars())
+                .bottom
+            val gestureBottom = maxOf(
+                insets.getInsets(WindowInsetsCompat.Type.mandatorySystemGestures()).bottom,
+                insets.getInsets(WindowInsetsCompat.Type.systemGestures()).bottom
+            )
+            val density = resources.displayMetrics.density
+            val systemBottom = maxOf(navigationBottom, gestureBottom)
+            val safeBottom = maxOf(
+                systemBottom + (6f * density).toInt(),
+                (18f * density).toInt()
+            )
+            if (view.paddingBottom != safeBottom) {
+                view.setPadding(
+                    view.paddingLeft,
+                    view.paddingTop,
+                    view.paddingRight,
+                    safeBottom
+                )
+            }
+            insets
+        }
+        ViewCompat.requestApplyInsets(binding.onboardingRoot)
         hideStatusBar()
     }
 

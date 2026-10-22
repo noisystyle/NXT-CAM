@@ -62,6 +62,7 @@ import androidx.camera.extensions.ExtensionMode
 import androidx.camera.extensions.ExtensionsManager
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -424,6 +425,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             hideSystemBars()
             applyAdaptiveFoldLayout()
             applyInterfaceRotation(interfaceRotation, animated = false)
+            ViewCompat.requestApplyInsets(binding.root)
         }
     }
 
@@ -447,6 +449,30 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         window.navigationBarColor = Color.TRANSPARENT
         window.isStatusBarContrastEnforced = false
         window.isNavigationBarContrastEnforced = false
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val navigationBottom = insets
+                .getInsets(WindowInsetsCompat.Type.navigationBars())
+                .bottom
+            val gestureBottom = maxOf(
+                insets.getInsets(WindowInsetsCompat.Type.mandatorySystemGestures()).bottom,
+                insets.getInsets(WindowInsetsCompat.Type.systemGestures()).bottom
+            )
+            val systemBottom = max(navigationBottom, gestureBottom)
+            val safeBottom = max(
+                systemBottom + dp(6f).roundToInt(),
+                dp(18f).roundToInt()
+            )
+            if (view.paddingBottom != safeBottom) {
+                view.setPadding(
+                    view.paddingLeft,
+                    view.paddingTop,
+                    view.paddingRight,
+                    safeBottom
+                )
+            }
+            insets
+        }
+        ViewCompat.requestApplyInsets(binding.root)
         hideSystemBars()
     }
 
