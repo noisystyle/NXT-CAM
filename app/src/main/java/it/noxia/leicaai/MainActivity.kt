@@ -453,14 +453,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             val navigationBottom = insets
                 .getInsets(WindowInsetsCompat.Type.navigationBars())
                 .bottom
-            val gestureBottom = maxOf(
-                insets.getInsets(WindowInsetsCompat.Type.mandatorySystemGestures()).bottom,
-                insets.getInsets(WindowInsetsCompat.Type.systemGestures()).bottom
-            )
+            val gestureBottom = insets
+                .getInsets(WindowInsetsCompat.Type.mandatorySystemGestures())
+                .bottom
             val systemBottom = max(navigationBottom, gestureBottom)
             val safeBottom = max(
-                systemBottom + dp(6f).roundToInt(),
-                dp(18f).roundToInt()
+                systemBottom,
+                dp(10f).roundToInt()
             )
             if (view.paddingBottom != safeBottom) {
                 view.setPadding(

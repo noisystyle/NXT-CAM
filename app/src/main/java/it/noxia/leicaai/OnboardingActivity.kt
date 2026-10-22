@@ -143,15 +143,14 @@ class OnboardingActivity : AppCompatActivity() {
             val navigationBottom = insets
                 .getInsets(WindowInsetsCompat.Type.navigationBars())
                 .bottom
-            val gestureBottom = maxOf(
-                insets.getInsets(WindowInsetsCompat.Type.mandatorySystemGestures()).bottom,
-                insets.getInsets(WindowInsetsCompat.Type.systemGestures()).bottom
-            )
+            val gestureBottom = insets
+                .getInsets(WindowInsetsCompat.Type.mandatorySystemGestures())
+                .bottom
             val density = resources.displayMetrics.density
             val systemBottom = maxOf(navigationBottom, gestureBottom)
             val safeBottom = maxOf(
-                systemBottom + (6f * density).toInt(),
-                (18f * density).toInt()
+                systemBottom,
+                (10f * density).toInt()
             )
             if (view.paddingBottom != safeBottom) {
                 view.setPadding(
