@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pageRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:paddingStart="28dp"
+    android:paddingTop="28dp"
+    android:paddingEnd="28dp">
+
+    <TextView
+        android:id="@+id/pageEyebrow"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:letterSpacing="0.16"
+        android:maxLines="1"
+        android:textColor="@color/muted_white"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toStartOf="@id/pageProgress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/pageProgress"
+        android:layout_width="72dp"
+        android:layout_height="32dp"
+        android:gravity="center_vertical|end"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/progressOne"
+            android:layout_width="15dp"
+            android:layout_height="2dp"
+            android:layout_marginEnd="4dp" />
+
+        <View
+            android:id="@+id/progressTwo"
+            android:layout_width="15dp"
+            android:layout_height="2dp"
+            android:layout_marginEnd="4dp" />
+
+        <View
+            android:id="@+id/progressThree"
+            android:layout_width="15dp"
+            android:layout_height="2dp"
+            android:layout_marginEnd="4dp" />
+
+        <View
+            android:id="@+id/progressFour"
+            android:layout_width="15dp"
+            android:layout_height="2dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/pageTitle"
+        android:layout_width="0dp"
+        android:layout_height="132dp"
+        android:layout_marginTop="18dp"
+        android:autoSizeMaxTextSize="58sp"
+        android:autoSizeMinTextSize="36sp"
+        android:autoSizeStepGranularity="1sp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="start|center_vertical"
+        android:includeFontPadding="false"
+        android:letterSpacing="-0.025"
+        android:lineSpacingMultiplier="0.86"
+        android:maxLines="2"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pageEyebrow" />
+
+    <TextView
+        android:id="@+id/pageBody"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="sans-serif"
+        android:lineSpacingExtra="3dp"
+        android:maxLines="4"
+        android:textColor="@color/muted_white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pageTitle" />
+
+    <it.noxia.leicaai.OnboardingArtworkView
+        android:id="@+id/pageArtwork"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="Illustration of the described feature"
+        app:layout_constraintBottom_toTopOf="@id/footerDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pageBody" />
+
+    <View
+        android:id="@+id/footerDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#66FFFFFF"
+        app:layout_constraintBottom_toTopOf="@id/pageAction"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/pageAction"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:letterSpacing="0.18"
+        android:stateListAnimator="@animator/expressive_press"
+        android:text="CONTINUE"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/pageCounter"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/pageCounter"
+        android:layout_width="76dp"
+        android:layout_height="72dp"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center_vertical|end"
+        android:includeFontPadding="false"
+        android:letterSpacing="0.1"
+        android:text="01—04"
+        android:textColor="@color/muted_white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

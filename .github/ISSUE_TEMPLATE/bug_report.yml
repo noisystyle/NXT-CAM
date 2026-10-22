@@ -1,0 +1,39 @@
+name: Bug report
+description: Report reproducible NXT-CAM behavior
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you. Never include API keys, private photographs or unreviewed logs.
+  - type: input
+    id: device
+    attributes:
+      label: Device and Android version
+      placeholder: Samsung Galaxy…, Android…
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Describe what happened and what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. Open…\n2. Select…\n3. Capture…"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: NXT-CAM version
+      placeholder: 2.5.0
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional context
+      description: Include the profile, quality and shooting conditions when relevant.

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="accent_red">#ED1C24</color>
+    <color name="next_icon_background">#151515</color>
+    <color name="panel_black">#F5000000</color>
+    <color name="surface_container">#B30A0A0B</color>
+    <color name="surface_container_high">#CC141416</color>
+    <color name="surface_outline">#3DFFFFFF</color>
+    <color name="selected_surface">#FFF4F4F2</color>
+    <color name="muted_white">#BFCBCBCD</color>
+</resources>

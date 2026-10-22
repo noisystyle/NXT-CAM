@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NXT-CAM</string>
+    <string name="lens_wide">1×</string>
+    <string name="lens_crop_2x">2×</string>
+    <string name="crop_2x_unavailable">2× crop is unavailable on this camera.</string>
+    <string name="exposure_control">Exposure compensation</string>
+    <string name="exposure_decrease">Decrease exposure</string>
+    <string name="exposure_increase">Increase exposure</string>
+    <string name="exposure_reset">Reset exposure to zero</string>
+    <string name="exposure_zero">0.0 EV</string>
+    <string name="look_color">CL</string>
+    <string name="look_black_and_white">BW</string>
+    <string name="look_portrait">PT</string>
+    <string name="look_color_full">COLOR</string>
+    <string name="look_black_and_white_full">BLACK &amp; WHITE</string>
+    <string name="look_portrait_full">PORTRAIT</string>
+    <string name="look_selector_description">Choose the photographic profile</string>
+    <string name="look_label">LOOK</string>
+    <string name="nxt_frame">NXT FRAME</string>
+    <string name="nxt_ready">READY TO CAPTURE</string>
+    <string name="nxt_processing">NXT DEVELOPMENT</string>
+    <string name="nxt_processing_paused">NXT ON HOLD</string>
+    <string name="nxt_last_shot">LAST FRAME</string>
+    <string name="nxt_shot_acquired">FRAME CAPTURED</string>
+    <string name="fold_preview_description">Captured frame and NXT development preview</string>
+    <string name="shutter_description">Take a photograph</string>
+    <string name="settings_description">Open settings</string>
+    <string name="close_description">Return to the camera</string>
+    <string name="processing_title">DIGITAL DEVELOPMENT</string>
+    <string name="processing_message">Analyzing the scene and developing the photograph…</string>
+    <string name="processing_message_color">Analyzing the scene and developing the CL profile…</string>
+    <string name="processing_message_black_and_white">Analyzing the scene and developing the BW profile…</string>
+    <string name="processing_message_portrait">Developing the PORTRAIT profile…</string>
+    <string name="result_ai">NXT-CAM</string>
+    <string name="show_original">ORIGINAL</string>
+    <string name="show_ai">RESULT</string>
+    <string name="new_shot">NEW FRAME</string>
+    <string name="saved">Saved to Pictures/NXT-CAM</string>
+    <string name="camera_permission">Camera access is required to take photographs.</string>
+    <string name="grid_description">Grid and level</string>
+    <string name="flash_description">Flash mode</string>
+    <string name="import_description">Open NXT Roll</string>
+    <string name="share_description">Share result</string>
+    <string name="delete_description">Delete photograph</string>
+</resources>

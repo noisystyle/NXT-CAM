@@ -1,0 +1,24 @@
+name: Feature proposal
+description: Suggest an improvement aligned with the NXT-CAM vision
+title: "[Idea]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Need
+      description: Which photographic or experience problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: How should NXT-CAM approach it?
+    validations:
+      required: true
+  - type: textarea
+    id: fidelity
+    attributes:
+      label: Scene fidelity
+      description: How can the proposal preserve the original people, objects and content?

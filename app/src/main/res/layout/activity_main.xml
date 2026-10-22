@@ -1,0 +1,1214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/foldDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <FrameLayout
+        android:id="@+id/viewfinderContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        android:clipChildren="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/previewView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:implementationMode="compatible"
+            app:scaleType="fillCenter" />
+    </FrameLayout>
+
+    <it.noxia.leicaai.CameraPreviewOverlayView
+        android:id="@+id/cameraPreviewOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <it.noxia.leicaai.CompositionOverlayView
+        android:id="@+id/compositionOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/foldPreviewPanel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/fold_preview_surface"
+        android:clickable="true"
+        android:clipToOutline="true"
+        android:elevation="8dp"
+        android:focusable="true"
+        android:outlineProvider="background"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/foldDivider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/foldPreviewImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/fold_preview_description"
+            android:scaleType="fitCenter" />
+
+        <it.noxia.leicaai.GenerationEffectView
+            android:id="@+id/foldGenerationEffect"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/control_pill_compact"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.16"
+            android:paddingStart="14dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="8dp"
+            android:text="@string/nxt_frame"
+            android:textColor="@color/white"
+            android:textSize="9sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="52dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/control_pill_compact"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="18dp">
+
+            <it.noxia.leicaai.ThumbnailLoadingView
+                android:id="@+id/foldProcessingAnimation"
+                android:layout_width="38dp"
+                android:layout_height="38dp" />
+
+            <TextView
+                android:id="@+id/foldProcessingStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="9dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical"
+                android:letterSpacing="0.1"
+                android:maxLines="1"
+                android:text="@string/nxt_ready"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/settingsOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        android:clickable="true"
+        android:elevation="60dp"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="24dp"
+                android:paddingTop="18dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="28dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center_vertical"
+                        android:text="SETTINGS"
+                        android:textColor="@color/white"
+                        android:textSize="28sp" />
+
+                    <ImageButton
+                        android:id="@+id/settingsCloseButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="Close settings"
+                        android:padding="13dp"
+                        android:src="@drawable/ic_close"
+                        android:stateListAnimator="@animator/expressive_press" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="3dp"
+                    android:text="NXT-CAM is a BYOK experiment: use your own OpenAI key to develop photographs. The key remains encrypted on this device and is never embedded in images."
+                    android:textColor="@color/muted_white"
+                    android:textSize="13sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="24dp"
+                    android:background="#38FFFFFF" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:letterSpacing="0.12"
+                    android:text="OPENAI API"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Create a key in your OpenAI account and paste it here. You can replace or remove it at any time."
+                    android:textColor="@color/muted_white"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/settingsApiKeyInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/grid_cell"
+                    android:hint="sk-…"
+                    android:importantForAutofill="no"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textColorHint="#80FFFFFF"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:letterSpacing="0.12"
+                    android:text="MONTHLY LIMIT"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Set an optional limit in USD. When it is reached, NXT-CAM pauses new developments. Leave this empty for no in-app limit."
+                    android:textColor="@color/muted_white"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/settingsMonthlyLimitInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/grid_cell"
+                    android:hint="Limit in USD, for example 5.00"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textColorHint="#80FFFFFF"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/settingsCostStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/grid_cell"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="$0.00 SPENT THIS MONTH\n— AVERAGE COST PER PHOTO"
+                    android:textColor="@color/muted_white"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/settingsSaveButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@drawable/grid_cell"
+                        android:clickable="true"
+                        android:contentDescription="Save settings"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:stateListAnimator="@animator/expressive_press"
+                        android:text="SAVE SETTINGS"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/settingsExportButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/grid_cell"
+                        android:clickable="true"
+                        android:contentDescription="Export the detailed cost log"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:stateListAnimator="@animator/expressive_press"
+                        android:text="EXPORT COST LOG"
+                        android:textColor="@color/white"
+                        android:textSize="9sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/settingsClearKeyButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/grid_cell"
+                    android:clickable="true"
+                    android:contentDescription="Remove the API key from this device"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:stateListAnimator="@animator/expressive_press"
+                    android:text="REMOVE KEY FROM DEVICE"
+                    android:textColor="@color/muted_white"
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/settingsOnboardingButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/grid_cell"
+                    android:clickable="true"
+                    android:contentDescription="Replay the NXT-CAM introduction"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:stateListAnimator="@animator/expressive_press"
+                    android:text="REPLAY INTRODUCTION"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/toolRow"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="@color/black"
+        android:elevation="14dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <ImageButton
+        android:id="@+id/frontCameraButton"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:contentDescription="Front camera"
+        android:padding="13dp"
+        android:src="@drawable/ph_camera_rotate"
+        android:stateListAnimator="@animator/expressive_press" />
+
+    <LinearLayout
+        android:id="@+id/monthlyBudgetBar"
+        android:layout_width="84dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:stateListAnimator="@animator/expressive_press">
+
+        <TextView
+            android:id="@+id/monthlyBudgetText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:letterSpacing="0.06"
+            android:maxLines="1"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
+            android:text="∞ FRAMES"
+            android:textColor="@color/muted_white"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/monthlyBudgetResetText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:alpha="0.72"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:letterSpacing="0.08"
+            android:maxLines="1"
+            android:text="NEW ROLL IN 1 DAY"
+            android:textColor="@color/muted_white"
+            android:textSize="6sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/topControls"
+        android:layout_width="176dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="0dp">
+
+        <TextView
+            android:id="@+id/qualityButton"
+            android:layout_width="44dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:letterSpacing="0.04"
+            android:stateListAnimator="@animator/expressive_press"
+            android:text="HIGH"
+            android:textColor="@color/white"
+            android:textSize="9sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/gridButton"
+            android:layout_width="44dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/grid_description"
+            android:padding="10dp"
+            android:src="@drawable/ph_grid_nine"
+            android:stateListAnimator="@animator/expressive_press" />
+
+        <ImageButton
+            android:id="@+id/flashButton"
+            android:layout_width="44dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/flash_description"
+            android:padding="10dp"
+            android:src="@drawable/ph_lightning_slash"
+            android:stateListAnimator="@animator/expressive_press" />
+
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="44dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/settings_description"
+            android:padding="11dp"
+            android:src="@drawable/ph_gear_six"
+            android:stateListAnimator="@animator/expressive_press" />
+    </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/topToolsDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#38FFFFFF"
+        android:elevation="15dp"
+        app:layout_constraintEnd_toEndOf="@id/toolRow"
+        app:layout_constraintStart_toStartOf="@id/toolRow"
+        app:layout_constraintTop_toBottomOf="@id/toolRow" />
+
+    <TextView
+        android:id="@+id/rollLoadedPill"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_marginTop="18dp"
+        android:alpha="0"
+        android:background="@drawable/control_pill_compact"
+        android:elevation="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:letterSpacing="0.1"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:text="NEW ROLL LOADED"
+        android:textColor="@color/white"
+        android:textSize="9sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/focusRing"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@drawable/focus_ring"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/exposureGestureIndicator"
+        android:layout_width="68dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/control_pill_compact"
+        android:gravity="center"
+        android:text="EV 0.0"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/focusLockBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/dark_button"
+        android:gravity="center"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="AF/AE LOCK"
+        android:textColor="@color/white"
+        android:textSize="9sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/captureRow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/captureFlash"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/lensSelector"
+        android:layout_width="132dp"
+        android:layout_height="48dp"
+        android:background="@color/black"
+        android:elevation="10dp"
+        android:orientation="horizontal"
+        android:padding="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/lensUltraWideButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:stateListAnimator="@animator/expressive_press"
+            android:text="0.6"
+            android:textColor="@color/muted_white"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#33FFFFFF" />
+
+        <TextView
+            android:id="@+id/lensWideButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selected_light"
+            android:gravity="center"
+            android:stateListAnimator="@animator/expressive_press"
+            android:text="1×"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#33FFFFFF" />
+
+        <TextView
+            android:id="@+id/lensCropButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:stateListAnimator="@animator/expressive_press"
+            android:text="2×"
+            android:textColor="@color/muted_white"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/captureRow"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:elevation="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/lensSelector"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    <FrameLayout
+        android:id="@+id/importButton"
+        android:layout_width="68dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/thumbnail_square"
+        android:clickable="true"
+        android:clipToOutline="true"
+        android:contentDescription="@string/import_description"
+        android:focusable="true"
+        android:foreground="@drawable/thumbnail_square_ring"
+        android:outlineProvider="background"
+        android:stateListAnimator="@animator/expressive_press">
+
+        <ImageView
+            android:id="@+id/latestThumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Latest NXT-CAM result"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/importIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_import" />
+
+        <it.noxia.leicaai.SquareLoadingView
+            android:id="@+id/thumbnailLoadingBorder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:focusable="false"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/shutterButton"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/shutter_rect"
+        android:clickable="true"
+        android:contentDescription="@string/shutter_description"
+        android:focusable="true"
+        android:stateListAnimator="@animator/expressive_press">
+
+        <it.noxia.leicaai.ShutterLevelView
+            android:id="@+id/shutterLevel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:focusable="false" />
+    </FrameLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/toolCaptureDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#38FFFFFF"
+        android:elevation="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/captureRow" />
+
+    <View
+        android:id="@+id/captureModeDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#38FFFFFF"
+        android:elevation="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/lensSelector" />
+
+    <LinearLayout
+        android:id="@+id/lookSelector"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:background="@color/black"
+        android:contentDescription="@string/look_selector_description"
+        android:elevation="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/lensSelector"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/colorLookButton"
+            style="@style/BottomLookOption"
+            android:text="@string/look_color_full"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/blackAndWhiteLookButton"
+            style="@style/BottomLookOption"
+            android:text="@string/look_black_and_white" />
+
+        <TextView
+            android:id="@+id/portraitLookButton"
+            style="@style/BottomLookOption"
+            android:text="@string/look_portrait_full" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rollTimelineOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        android:clickable="true"
+        android:elevation="30dp"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="102dp"
+            android:paddingStart="16dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="12dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/timelineTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
+                    android:includeFontPadding="false"
+                    android:letterSpacing="-0.025"
+                    android:text="photos"
+                    android:textColor="@color/white"
+                    android:textSize="48sp" />
+
+                <TextView
+                    android:id="@+id/timelineSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="nxt roll"
+                    android:textColor="@color/muted_white"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/timelineImportButton"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="52dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Import a photograph from the gallery"
+                android:padding="11dp"
+                android:src="@drawable/ic_import"
+                android:stateListAnimator="@animator/expressive_press" />
+
+            <ImageButton
+                android:id="@+id/timelineCloseButton"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Close NXT Roll"
+                android:padding="11dp"
+                android:src="@drawable/ic_close"
+                android:stateListAnimator="@animator/expressive_press" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ScrollView
+                android:id="@+id/timelineScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:fillViewport="true"
+                android:overScrollMode="never"
+                android:paddingBottom="24dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/timelineMonthsContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="28dp" />
+            </ScrollView>
+
+            <LinearLayout
+                android:id="@+id/stickyMonthHeader"
+                android:layout_width="match_parent"
+                android:layout_height="78dp"
+                android:background="@color/black"
+                android:elevation="4dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingStart="18dp"
+                android:paddingEnd="12dp"
+                android:visibility="invisible">
+
+                <TextView
+                    android:id="@+id/stickyMonthTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
+                    android:includeFontPadding="false"
+                    android:letterSpacing="-0.02"
+                    android:maxLines="1"
+                    android:text="September 2026"
+                    android:textColor="@color/white"
+                    android:textSize="36sp" />
+
+                <TextView
+                    android:id="@+id/stickyMonthSubtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:maxLines="1"
+                    android:text="0 frames"
+                    android:textColor="@color/muted_white"
+                    android:textSize="9sp" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/importEditorOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        android:clickable="true"
+        android:elevation="34dp"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:paddingStart="16dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif-thin"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:letterSpacing="-0.025"
+                android:text="import"
+                android:textColor="@color/white"
+                android:textSize="42sp" />
+
+            <ImageButton
+                android:id="@+id/importEditorCloseButton"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Cancel import"
+                android:padding="11dp"
+                android:src="@drawable/ic_close"
+                android:stateListAnimator="@animator/expressive_press" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#080808">
+
+            <ImageView
+                android:id="@+id/importPreviewImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="Original photograph to develop"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_gravity="bottom|start"
+                android:background="@color/black"
+                android:gravity="center"
+                android:letterSpacing="0.08"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="ORIGINAL PRESERVED"
+                android:textColor="@color/muted_white"
+                android:textSize="8sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:gravity="center_vertical"
+            android:letterSpacing="0.1"
+            android:paddingStart="14dp"
+            android:text="NXT PROFILE"
+            android:textColor="@color/muted_white"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="@color/black"
+            android:orientation="horizontal">
+
+            <TextView android:id="@+id/importColorLookButton" style="@style/BottomLookOption" android:text="COLOR" />
+            <TextView android:id="@+id/importBlackAndWhiteLookButton" style="@style/BottomLookOption" android:text="BLACK &amp; WHITE" />
+            <TextView android:id="@+id/importPortraitLookButton" style="@style/BottomLookOption" android:text="PORTRAIT" />
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#38FFFFFF" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/black"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/importHighQualityButton"
+                style="@style/BottomLookOption"
+                android:text="HIGH" />
+
+            <TextView
+                android:id="@+id/importMaxQualityButton"
+                style="@style/BottomLookOption"
+                android:text="MAX" />
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#38FFFFFF" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/black"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/importCancelButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:letterSpacing="0.08"
+                android:stateListAnimator="@animator/expressive_press"
+                android:text="CANCEL"
+                android:textColor="@color/muted_white"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/importDevelopButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.6"
+                android:background="@color/white"
+                android:gravity="center"
+                android:letterSpacing="0.08"
+                android:stateListAnimator="@animator/expressive_press"
+                android:text="DEVELOP WITH NXT"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/resultOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        android:clickable="true"
+        android:elevation="32dp"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/resultImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="110dp"
+            android:contentDescription="@string/result_ai"
+            android:scaleType="fitCenter" />
+
+        <it.noxia.leicaai.GenerationEffectView
+            android:id="@+id/generationEffect"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="110dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="132dp"
+            android:layout_gravity="top"
+            android:background="@drawable/viewer_top_scrim" />
+
+        <ImageButton
+            android:id="@+id/deleteResultButton"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="top|start"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/control_pill_compact"
+            android:contentDescription="@string/delete_description"
+            android:padding="11dp"
+            android:src="@drawable/ic_delete"
+            android:stateListAnimator="@animator/expressive_press" />
+
+        <ImageButton
+            android:id="@+id/shareResultButton"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="27dp"
+            android:layout_marginEnd="70dp"
+            android:background="@drawable/control_pill_compact"
+            android:contentDescription="@string/share_description"
+            android:padding="11dp"
+            android:src="@drawable/ic_share"
+            android:stateListAnimator="@animator/expressive_press" />
+
+        <ImageButton
+            android:id="@+id/closeResultButton"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="27dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/control_pill_compact"
+            android:contentDescription="@string/close_description"
+            android:padding="11dp"
+            android:src="@drawable/ic_close"
+            android:stateListAnimator="@animator/expressive_press" />
+
+        <LinearLayout
+            android:id="@+id/resultProcessingIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="52dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="108dp"
+            android:background="@drawable/control_pill_compact"
+            android:elevation="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="7dp"
+            android:visibility="gone">
+
+            <it.noxia.leicaai.ThumbnailLoadingView
+                android:id="@+id/resultProcessingAnimation"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:clickable="false"
+                android:focusable="false" />
+
+            <TextView
+                android:id="@+id/resultProcessingText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="9dp"
+                android:gravity="center_vertical"
+                android:letterSpacing="0.08"
+                android:maxLines="1"
+                android:text="NXT DEVELOPMENT IN PROGRESS"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:layout_gravity="bottom"
+            android:layout_margin="14dp"
+            android:background="@drawable/viewer_bottom_surface"
+            android:elevation="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="12dp">
+
+            <TextView
+                android:id="@+id/resultPosition"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="1 / 1"
+                android:textColor="@color/muted_white"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/newShotButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:background="@drawable/dark_button"
+                android:gravity="center"
+                android:stateListAnimator="@animator/expressive_press"
+                android:text="CAMERA"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/compareResultButton"
+                android:layout_width="106dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/dark_button"
+                android:gravity="center"
+                android:letterSpacing="0.04"
+                android:stateListAnimator="@animator/expressive_press"
+                android:text="ORIGINAL"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
