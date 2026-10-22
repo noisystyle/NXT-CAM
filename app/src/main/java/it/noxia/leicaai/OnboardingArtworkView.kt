@@ -162,16 +162,22 @@ class OnboardingArtworkView @JvmOverloads constructor(
             comparison,
             RectF(0f, 0f, w, bottom),
             ColorMatrixColorFilter(
-                ColorMatrix(
-                    floatArrayOf(
-                        0.92f, 0f, 0f, 0f, -2f,
-                        0f, 0.95f, 0f, 0f, -1f,
-                        0f, 0f, 1.02f, 0f, 2f,
-                        0f, 0f, 0f, 1f, 0f
+                ColorMatrix().apply {
+                    setSaturation(0.38f)
+                    postConcat(
+                        ColorMatrix(
+                            floatArrayOf(
+                                0.72f, 0f, 0f, 0f, 34f,
+                                0f, 0.72f, 0f, 0f, 34f,
+                                0f, 0f, 0.72f, 0f, 34f,
+                                0f, 0f, 0f, 1f, 0f
+                            )
+                        )
                     )
-                )
+                }
             )
         )
+        drawBeforeTexture(canvas, center, bottom)
         canvas.restore()
 
         canvas.save()
@@ -209,6 +215,30 @@ class OnboardingArtworkView @JvmOverloads constructor(
         canvas.drawText("ORIGINAL", w * 0.25f, h - dp(7f), paint)
         paint.color = Color.WHITE
         canvas.drawText("NXT", w * 0.75f, h - dp(7f), paint)
+    }
+
+    private fun drawBeforeTexture(canvas: Canvas, panelWidth: Float, panelHeight: Float) {
+        paint.style = Paint.Style.FILL
+        paint.color = Color.argb(24, 224, 226, 222)
+        canvas.drawRect(0f, 0f, panelWidth, panelHeight, paint)
+
+        var seed = 0x4E585443
+        val speckCount = ((panelWidth * panelHeight) / dp(24f)).toInt().coerceIn(420, 1_200)
+        repeat(speckCount) {
+            seed = seed * 1_664_525 + 1_013_904_223
+            val x = ((seed ushr 8) and 0xFFFF) / 65_535f * panelWidth
+            seed = seed * 1_664_525 + 1_013_904_223
+            val y = ((seed ushr 8) and 0xFFFF) / 65_535f * panelHeight
+            seed = seed * 1_664_525 + 1_013_904_223
+            paint.color = if ((seed and 1) == 0) {
+                Color.argb(30, 255, 255, 255)
+            } else {
+                Color.argb(24, 0, 0, 0)
+            }
+            val radius = if ((seed and 3) == 0) dp(0.55f) else dp(0.32f)
+            canvas.drawCircle(x, y, radius, paint)
+        }
+        paint.color = Color.WHITE
     }
 
     private fun drawBitmapCenterCrop(
