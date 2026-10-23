@@ -14,11 +14,6 @@ The downloadable APK is an experimental debug build for sideloading and testing.
 you to allow installation from the browser or file manager used to open it. NXT-CAM is BYOK: the
 APK contains no API key, so each tester must provide a personal OpenAI key in **Settings**.
 
-> **Migrating from 2.5.1 or earlier:** version 2.6.0 adopts the new application ID
-> `io.github.noisystyle.nxtcam`, so Android installs it as a separate app. Open the NXT roll and
-> allow photo access once to keep earlier NXT-CAM photographs visible, then re-enter the API key.
-> Remove the legacy installation only after checking the new app.
-
 NXT-CAM starts with a simple question: if every smartphone already has a capable camera, how far
 can a photograph go when AI is used as a true digital development process?
 
