@@ -1,11 +1,11 @@
-package it.noxia.leicaai
+package io.github.noisystyle.nxtcam
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 
 object GenerationEvents {
-    const val ACTION_STATE_CHANGED = "it.noxia.leicaai.action.GENERATION_STATE_CHANGED"
+    const val ACTION_STATE_CHANGED = "io.github.noisystyle.nxtcam.action.GENERATION_STATE_CHANGED"
     const val EXTRA_JOB_ID = "job_id"
     const val EXTRA_STATUS = "status"
     const val EXTRA_RESULT_URI = "result_uri"

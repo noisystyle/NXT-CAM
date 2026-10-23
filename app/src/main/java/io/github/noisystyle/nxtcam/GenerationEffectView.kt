@@ -1,4 +1,4 @@
-package it.noxia.leicaai
+package io.github.noisystyle.nxtcam
 
 import android.animation.ValueAnimator
 import android.content.Context

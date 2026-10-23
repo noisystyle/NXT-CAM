@@ -1,4 +1,4 @@
-package it.noxia.leicaai
+package io.github.noisystyle.nxtcam
 
 import android.app.Activity
 import android.content.Intent
@@ -21,8 +21,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import it.noxia.leicaai.databinding.ActivityOnboardingBinding
-import it.noxia.leicaai.databinding.ItemOnboardingPageBinding
+import io.github.noisystyle.nxtcam.databinding.ActivityOnboardingBinding
+import io.github.noisystyle.nxtcam.databinding.ItemOnboardingPageBinding
 
 @ExperimentalCamera2Interop
 class OnboardingActivity : AppCompatActivity() {
@@ -269,6 +269,6 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val EXTRA_REPLAY = "it.noxia.leicaai.extra.REPLAY_ONBOARDING"
+        const val EXTRA_REPLAY = "io.github.noisystyle.nxtcam.extra.REPLAY_ONBOARDING"
     }
 }

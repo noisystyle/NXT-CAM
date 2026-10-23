@@ -92,7 +92,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pageTitle" />
 
-    <it.noxia.leicaai.OnboardingArtworkView
+    <io.github.noisystyle.nxtcam.OnboardingArtworkView
         android:id="@+id/pageArtwork"
         android:layout_width="0dp"
         android:layout_height="0dp"

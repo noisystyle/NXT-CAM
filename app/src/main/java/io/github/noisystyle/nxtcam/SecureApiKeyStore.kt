@@ -1,4 +1,4 @@
-package it.noxia.leicaai
+package io.github.noisystyle.nxtcam
 
 import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
@@ -64,7 +64,7 @@ class SecureApiKeyStore(context: Context) {
         const val PREFERENCES_NAME = "secure_openai"
         const val KEY_CIPHERTEXT = "api_key_ciphertext"
         const val KEY_IV = "api_key_iv"
-        const val KEY_ALIAS = "leica_ai_openai_key"
+        const val KEY_ALIAS = "nxt_cam_openai_key"
         const val ANDROID_KEYSTORE = "AndroidKeyStore"
         const val TRANSFORMATION = "AES/GCM/NoPadding"
     }

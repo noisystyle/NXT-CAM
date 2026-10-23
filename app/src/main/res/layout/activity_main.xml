@@ -33,7 +33,7 @@
             app:scaleType="fillCenter" />
     </FrameLayout>
 
-    <it.noxia.leicaai.CameraPreviewOverlayView
+    <io.github.noisystyle.nxtcam.CameraPreviewOverlayView
         android:id="@+id/cameraPreviewOverlay"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -44,7 +44,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <it.noxia.leicaai.CompositionOverlayView
+    <io.github.noisystyle.nxtcam.CompositionOverlayView
         android:id="@+id/compositionOverlay"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -81,7 +81,7 @@
             android:contentDescription="@string/fold_preview_description"
             android:scaleType="fitCenter" />
 
-        <it.noxia.leicaai.GenerationEffectView
+        <io.github.noisystyle.nxtcam.GenerationEffectView
             android:id="@+id/foldGenerationEffect"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -119,7 +119,7 @@
             android:paddingStart="8dp"
             android:paddingEnd="18dp">
 
-            <it.noxia.leicaai.ThumbnailLoadingView
+            <io.github.noisystyle.nxtcam.ThumbnailLoadingView
                 android:id="@+id/foldProcessingAnimation"
                 android:layout_width="38dp"
                 android:layout_height="38dp" />
@@ -715,7 +715,7 @@
             android:contentDescription="@null"
             android:src="@drawable/ic_import" />
 
-        <it.noxia.leicaai.SquareLoadingView
+        <io.github.noisystyle.nxtcam.SquareLoadingView
             android:id="@+id/thumbnailLoadingBorder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -735,7 +735,7 @@
         android:focusable="true"
         android:stateListAnimator="@animator/expressive_press">
 
-        <it.noxia.leicaai.ShutterLevelView
+        <io.github.noisystyle.nxtcam.ShutterLevelView
             android:id="@+id/shutterLevel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -1104,7 +1104,7 @@
             android:contentDescription="@string/result_ai"
             android:scaleType="fitCenter" />
 
-        <it.noxia.leicaai.GenerationEffectView
+        <io.github.noisystyle.nxtcam.GenerationEffectView
             android:id="@+id/generationEffect"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -1174,7 +1174,7 @@
             android:paddingBottom="7dp"
             android:visibility="gone">
 
-            <it.noxia.leicaai.ThumbnailLoadingView
+            <io.github.noisystyle.nxtcam.ThumbnailLoadingView
                 android:id="@+id/resultProcessingAnimation"
                 android:layout_width="38dp"
                 android:layout_height="38dp"

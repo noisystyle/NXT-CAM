@@ -8,11 +8,16 @@
 
 ## Download
 
-[**Download NXT-CAM 2.5.1 for Android**](https://github.com/noisystyle/NXT-CAM/releases/download/v2.5.1/NXT-CAM-debug.apk)
+[**Download NXT-CAM 2.6.0 for Android**](https://github.com/noisystyle/NXT-CAM/releases/download/v2.6.0/NXT-CAM-debug.apk)
 
 The downloadable APK is an experimental debug build for sideloading and testing. Android may ask
 you to allow installation from the browser or file manager used to open it. NXT-CAM is BYOK: the
 APK contains no API key, so each tester must provide a personal OpenAI key in **Settings**.
+
+> **Migrating from 2.5.1 or earlier:** version 2.6.0 adopts the new application ID
+> `io.github.noisystyle.nxtcam`, so Android installs it as a separate app. Open the NXT roll and
+> allow photo access once to keep earlier NXT-CAM photographs visible, then re-enter the API key.
+> Remove the legacy installation only after checking the new app.
 
 NXT-CAM starts with a simple question: if every smartphone already has a capable camera, how far
 can a photograph go when AI is used as a true digital development process?
@@ -146,6 +151,8 @@ When reporting a compatibility issue, include the phone model, Android version, 
 version and steps to reproduce it. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Build and install
+
+The Android application ID is `io.github.noisystyle.nxtcam`.
 
 Clone the project and open it in Android Studio, or use Gradle:
 

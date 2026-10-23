@@ -1,4 +1,4 @@
-package it.noxia.leicaai
+package io.github.noisystyle.nxtcam
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -12,13 +12,13 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
 
-class SquareLoadingView @JvmOverloads constructor(
+class ThumbnailLoadingView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : View(context, attrs) {
     private val density = resources.displayMetrics.density
     private val trackPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.argb(68, 255, 255, 255)
+        color = Color.argb(60, 255, 255, 255)
         style = Paint.Style.STROKE
         strokeWidth = 2.2f * density
     }
@@ -26,7 +26,7 @@ class SquareLoadingView @JvmOverloads constructor(
         color = Color.WHITE
         style = Paint.Style.STROKE
         strokeWidth = 2.6f * density
-        strokeCap = Paint.Cap.SQUARE
+        strokeCap = Paint.Cap.ROUND
     }
     private val outline = Path()
     private val segment = Path()
@@ -60,7 +60,7 @@ class SquareLoadingView @JvmOverloads constructor(
         val inset = progressPaint.strokeWidth / 2f + density
         val bounds = RectF(inset, inset, width - inset, height - inset)
         outline.reset()
-        outline.addRect(bounds, Path.Direction.CW)
+        outline.addOval(bounds, Path.Direction.CW)
         canvas.drawPath(outline, trackPaint)
 
         measure.setPath(outline, false)

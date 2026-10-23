@@ -1,4 +1,4 @@
-package it.noxia.leicaai
+package io.github.noisystyle.nxtcam
 
 import android.Manifest
 import android.animation.AnimatorInflater
@@ -66,7 +66,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import it.noxia.leicaai.databinding.ActivityMainBinding
+import io.github.noisystyle.nxtcam.databinding.ActivityMainBinding
 import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -116,6 +116,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         const val MAX_PREVIEW_RECOVERY_ATTEMPTS = 2
         const val RESULT_PAN_MULTIPLIER = 1.7f
         const val CAMERA_PREFERENCES = "nxt_camera_preferences"
+        const val LEGACY_PACKAGE_ID = "it.noxia.leicaai"
         const val SUPPORT_URL = "https://buymeacoffee.com/marcoprattv"
         const val KEY_GRID_ENABLED = "grid_enabled"
         const val KEY_PHOTO_QUALITY = "photo_quality"
@@ -279,6 +280,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private val notificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { }
+
+    private val legacyRollPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {
+        loadPhotoLibrary()
+    }
 
     private val onboardingLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -1981,8 +1988,26 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         binding.rollTimelineOverlay.visibility = View.VISIBLE
         binding.rollTimelineOverlay.bringToFront()
         renderRollTimeline()
+        requestLegacyRollAccessIfNeeded()
         updateRotationSensorRegistration()
         updateProcessingIndicators()
+    }
+
+    @Suppress("DEPRECATION")
+    private fun requestLegacyRollAccessIfNeeded() {
+        val legacyPackageInstalled = runCatching {
+            packageManager.getApplicationInfo(LEGACY_PACKAGE_ID, 0)
+        }.isSuccess
+        if (!legacyPackageInstalled) return
+
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            legacyRollPermissionLauncher.launch(permission)
+        }
     }
 
     private fun choosePhotoToImport() {

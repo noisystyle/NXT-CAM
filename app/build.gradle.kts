@@ -3,15 +3,15 @@ plugins {
 }
 
 android {
-    namespace = "it.noxia.leicaai"
+    namespace = "io.github.noisystyle.nxtcam"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "it.noxia.leicaai"
+        applicationId = "io.github.noisystyle.nxtcam"
         minSdk = 29
         targetSdk = 37
-        versionCode = 48
-        versionName = "2.5.1"
+        versionCode = 49
+        versionName = "2.6.0"
     }
 
     buildFeatures {
