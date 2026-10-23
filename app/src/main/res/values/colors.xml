@@ -3,7 +3,7 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="accent_red">#ED1C24</color>
-    <color name="next_icon_background">#151515</color>
+    <color name="next_icon_background">#F4F4F4</color>
     <color name="panel_black">#F5000000</color>
     <color name="surface_container">#B30A0A0B</color>
     <color name="surface_container_high">#CC141416</color>

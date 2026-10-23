@@ -4,12 +4,19 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+    <!-- Shared NXT family header: the same graphite-paper geometry as NXT-CAL/WGT. -->
     <path
-        android:fillColor="#00000000"
-        android:pathData="M54,34 A20,20 0,1 0,54,74 A20,20 0,1 0,54,34 Z"
-        android:strokeColor="#686868"
-        android:strokeWidth="4" />
+        android:fillColor="#707070"
+        android:pathData="M40,34H68Q72,34 72,38V41Q72,45 68,45H40Q36,45 36,41V38Q36,34 40,34Z" />
+
+    <!-- A minimal lens replaces the conventional camera silhouette. -->
     <path
-        android:fillColor="@color/accent_red"
-        android:pathData="M54,47.5 A6.5,6.5 0,1 0,54,60.5 A6.5,6.5 0,1 0,54,47.5 Z" />
+        android:fillColor="#222222"
+        android:pathData="M54,48A12,12 0,1 0,54,72A12,12 0,1 0,54,48Z" />
+    <path
+        android:fillColor="#F4F4F4"
+        android:pathData="M54,53A7,7 0,1 0,54,67A7,7 0,1 0,54,53Z" />
+    <path
+        android:fillColor="#707070"
+        android:pathData="M54,57A3,3 0,1 0,54,63A3,3 0,1 0,54,57Z" />
 </vector>
