@@ -81,9 +81,11 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import kotlin.math.abs
+import kotlin.math.atan2
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 @ExperimentalCamera2Interop
 class MainActivity : AppCompatActivity(), SensorEventListener {
@@ -136,7 +138,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var resultGestureDetector: GestureDetector
     private lateinit var orientationEventListener: OrientationEventListener
 
-    private var rotationSensor: Sensor? = null
+    private var levelSensor: Sensor? = null
     private var lightSensor: Sensor? = null
     private var cameraProvider: ProcessCameraProvider? = null
     private var extensionsManager: ExtensionsManager? = null
@@ -349,7 +351,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         pendingGenerations += generationStore.list()
         cleanupOrphanPendingFiles()
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
-        rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+        levelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
+            ?: sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
         configureOrientationListener()
 
@@ -497,6 +500,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
                 cameraTargetRotation = targetRotation
                 imageCapture?.targetRotation = targetRotation
+                binding.shutterLevel.resetSmoothing()
                 interfaceRotation = when (targetRotation) {
                     Surface.ROTATION_90 -> 90f
                     Surface.ROTATION_180 -> 180f
@@ -1089,8 +1093,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private fun updateRotationSensorRegistration() {
         sensorManager.unregisterListener(this)
         if (!isAppResumed || !isCameraViewVisible()) return
-        rotationSensor?.let {
-            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_UI)
+        levelSensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
         }
         lightSensor?.let {
             sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
@@ -2827,10 +2831,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent) {
         when (event.sensor.type) {
             Sensor.TYPE_LIGHT -> updateNightExtensionForLux(event.values.firstOrNull() ?: return)
+            Sensor.TYPE_GRAVITY -> updateLevelFromGravity(
+                rawX = event.values[0],
+                rawY = event.values[1],
+                rawZ = event.values[2]
+            )
             Sensor.TYPE_ROTATION_VECTOR -> {
                 val deviceMatrix = FloatArray(9)
                 val screenMatrix = FloatArray(9)
-                val orientation = FloatArray(3)
                 SensorManager.getRotationMatrixFromVector(deviceMatrix, event.values)
                 val (axisX, axisY) = when (cameraTargetRotation) {
                     Surface.ROTATION_90 -> SensorManager.AXIS_Y to SensorManager.AXIS_MINUS_X
@@ -2839,15 +2847,44 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                     else -> SensorManager.AXIS_X to SensorManager.AXIS_Y
                 }
                 SensorManager.remapCoordinateSystem(deviceMatrix, axisX, axisY, screenMatrix)
-                SensorManager.getOrientation(screenMatrix, orientation)
-                binding.shutterLevel.updateLevel(
-                    roll = Math.toDegrees(orientation[2].toDouble()).toFloat(),
-                    deviceX = screenMatrix[6],
-                    deviceY = screenMatrix[7],
-                    deviceZ = screenMatrix[8]
+                updateLevelFromNormalizedGravity(
+                    screenX = screenMatrix[6],
+                    screenY = screenMatrix[7],
+                    screenZ = screenMatrix[8]
                 )
             }
         }
+    }
+
+    private fun updateLevelFromGravity(rawX: Float, rawY: Float, rawZ: Float) {
+        val magnitude = sqrt(rawX * rawX + rawY * rawY + rawZ * rawZ)
+        if (magnitude < 0.1f) return
+        val normalizedX = rawX / magnitude
+        val normalizedY = rawY / magnitude
+        val normalizedZ = rawZ / magnitude
+        val (screenX, screenY) = when (cameraTargetRotation) {
+            Surface.ROTATION_90 -> normalizedY to -normalizedX
+            Surface.ROTATION_180 -> -normalizedX to -normalizedY
+            Surface.ROTATION_270 -> -normalizedY to normalizedX
+            else -> normalizedX to normalizedY
+        }
+        updateLevelFromNormalizedGravity(screenX, screenY, normalizedZ)
+    }
+
+    private fun updateLevelFromNormalizedGravity(
+        screenX: Float,
+        screenY: Float,
+        screenZ: Float
+    ) {
+        val roll = Math.toDegrees(
+            atan2(screenX.toDouble(), screenY.toDouble())
+        ).toFloat()
+        binding.shutterLevel.updateLevel(
+            roll = roll,
+            deviceX = screenX,
+            deviceY = screenY,
+            deviceZ = screenZ
+        )
     }
 
     private fun updateNightExtensionForLux(lux: Float) {

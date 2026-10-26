@@ -51,52 +51,76 @@ class ShutterLevelView @JvmOverloads constructor(
         }
         lastUpdateNanos = nowNanos
 
-        val targetRoll = roll.coerceIn(-MAX_ROLL_DEGREES, MAX_ROLL_DEGREES)
+        val targetRoll = roll
+            .coerceIn(-MAX_ROLL_DEGREES, MAX_ROLL_DEGREES)
+            .let { if (abs(it) <= HORIZON_ZERO_DEADBAND) 0f else it }
         val flatness = abs(deviceZ).coerceIn(0f, 1f)
         if (!initialized) {
             rollDegrees = targetRoll
             filteredFlatness = flatness
-            bubbleX = (deviceX / MAX_BUBBLE_TILT).coerceIn(-1f, 1f)
-            bubbleY = (deviceY / MAX_BUBBLE_TILT).coerceIn(-1f, 1f)
+            topDownLevel = flatness >= TOP_DOWN_ENTER_THRESHOLD
+            val initialBubble = stabilizedBubble(deviceX, deviceY)
+            bubbleX = initialBubble.first
+            bubbleY = initialBubble.second
             initialized = true
         } else {
-            rollDegrees = smooth(
-                current = rollDegrees,
-                target = targetRoll,
-                deltaSeconds = deltaSeconds,
-                timeConstant = HORIZON_TIME_CONSTANT,
-                deadband = HORIZON_INPUT_DEADBAND
-            )
+            // Roll becomes ill-defined near a flat position. Freeze it before switching to
+            // the two-axis plane level instead of letting the horizon indicator twitch.
+            if (filteredFlatness < HORIZON_FREEZE_THRESHOLD) {
+                rollDegrees = smooth(
+                    current = rollDegrees,
+                    target = targetRoll,
+                    deltaSeconds = deltaSeconds,
+                    timeConstant = HORIZON_TIME_CONSTANT
+                )
+            }
             filteredFlatness = smooth(
                 current = filteredFlatness,
                 target = flatness,
                 deltaSeconds = deltaSeconds,
-                timeConstant = FLATNESS_TIME_CONSTANT,
-                deadband = 0f
+                timeConstant = FLATNESS_TIME_CONSTANT
             )
         }
 
         updateLevelMode(filteredFlatness)
         if (topDownLevel) {
-            val targetX = (deviceX / MAX_BUBBLE_TILT).coerceIn(-1f, 1f)
-            val targetY = (deviceY / MAX_BUBBLE_TILT).coerceIn(-1f, 1f)
+            val (targetX, targetY) = stabilizedBubble(deviceX, deviceY)
             bubbleX = smooth(
                 current = bubbleX,
                 target = targetX,
                 deltaSeconds = deltaSeconds,
-                timeConstant = PLANE_TIME_CONSTANT,
-                deadband = PLANE_INPUT_DEADBAND
+                timeConstant = PLANE_TIME_CONSTANT
             )
             bubbleY = smooth(
                 current = bubbleY,
                 target = targetY,
                 deltaSeconds = deltaSeconds,
-                timeConstant = PLANE_TIME_CONSTANT,
-                deadband = PLANE_INPUT_DEADBAND
+                timeConstant = PLANE_TIME_CONSTANT
             )
         }
         updateStableLevelStates()
         postInvalidateOnAnimation()
+    }
+
+    fun resetSmoothing() {
+        initialized = false
+        lastUpdateNanos = 0L
+        pendingTopDownMode = null
+        horizonIsLevel = false
+        planeIsLevel = false
+    }
+
+    private fun stabilizedBubble(deviceX: Float, deviceY: Float): Pair<Float, Float> {
+        val normalizedX = (deviceX / MAX_BUBBLE_TILT).coerceIn(-1f, 1f)
+        val normalizedY = (deviceY / MAX_BUBBLE_TILT).coerceIn(-1f, 1f)
+        val distance = hypot(normalizedX.toDouble(), normalizedY.toDouble()).toFloat()
+        if (distance <= PLANE_CENTER_DEAD_ZONE) return 0f to 0f
+
+        // Remove the noisy center continuously, without a jump at the dead-zone edge.
+        val adjustedDistance = ((distance - PLANE_CENTER_DEAD_ZONE) /
+            (1f - PLANE_CENTER_DEAD_ZONE)).coerceIn(0f, 1f)
+        val scale = adjustedDistance / distance
+        return normalizedX * scale to normalizedY * scale
     }
 
     private fun updateLevelMode(flatness: Float) {
@@ -142,12 +166,10 @@ class ShutterLevelView @JvmOverloads constructor(
         current: Float,
         target: Float,
         deltaSeconds: Float,
-        timeConstant: Float,
-        deadband: Float
+        timeConstant: Float
     ): Float {
         val difference = target - current
-        if (abs(difference) <= deadband) return current
-        val alpha = (deltaSeconds / (timeConstant + deltaSeconds)).coerceIn(0.035f, 0.32f)
+        val alpha = (deltaSeconds / (timeConstant + deltaSeconds)).coerceIn(0.02f, 0.22f)
         return current + difference * alpha
     }
 
@@ -210,17 +232,18 @@ class ShutterLevelView @JvmOverloads constructor(
     private companion object {
         const val MAX_ROLL_DEGREES = 25f
         const val MAX_BUBBLE_TILT = 0.34f
-        const val HORIZON_TIME_CONSTANT = 0.22f
-        const val FLATNESS_TIME_CONSTANT = 0.18f
-        const val PLANE_TIME_CONSTANT = 0.28f
-        const val HORIZON_INPUT_DEADBAND = 0.12f
-        const val PLANE_INPUT_DEADBAND = 0.012f
+        const val HORIZON_TIME_CONSTANT = 0.34f
+        const val FLATNESS_TIME_CONSTANT = 0.30f
+        const val PLANE_TIME_CONSTANT = 0.40f
+        const val HORIZON_ZERO_DEADBAND = 0.45f
+        const val PLANE_CENTER_DEAD_ZONE = 0.075f
+        const val HORIZON_FREEZE_THRESHOLD = 0.80f
         const val HORIZON_LEVEL_ENTER_DEGREES = 0.75f
         const val HORIZON_LEVEL_EXIT_DEGREES = 1.35f
         const val PLANE_LEVEL_ENTER = 0.045
         const val PLANE_LEVEL_EXIT = 0.075
-        const val TOP_DOWN_ENTER_THRESHOLD = 0.86f
-        const val TOP_DOWN_EXIT_THRESHOLD = 0.76f
-        const val MODE_SWITCH_STABILITY_MS = 260L
+        const val TOP_DOWN_ENTER_THRESHOLD = 0.88f
+        const val TOP_DOWN_EXIT_THRESHOLD = 0.78f
+        const val MODE_SWITCH_STABILITY_MS = 450L
     }
 }
